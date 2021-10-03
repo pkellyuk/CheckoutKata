@@ -66,18 +66,26 @@ namespace CheckoutKata
             Console.WriteLine("** starting test AddItemToBasket()");
 
             // get a stock item with a quantity of 1
-            StockItem stockItem = new StockItem("A", 1);
+            StockItem stockItemA = new StockItem("A", 1);
+            StockItem stockItemB = new StockItem("B", 3);
 
             // create a basket item
-            BasketItem basketItem = new BasketItem(stockItem, 1);
+            BasketItem basketItemA = new BasketItem(stockItemA, 1);
+            BasketItem basketItemB = new BasketItem(stockItemB, 3);
 
             // Create the basket
             Basket basket = new Basket();
 
             // add stock item to basket
-            if (basket.AddItem(basketItem)!=true)
+            if (basket.AddItem(basketItemA)!=true)
             {
-                Console.WriteLine("Failed to add item to basket with quantity: " + basketItem.GetQuantity());
+                Console.WriteLine("Failed to add item to basket with quantity: " + basketItemA.GetQuantity());
+                return;
+            }
+            // add stock item to basket
+            if (basket.AddItem(basketItemB) != true)
+            {
+                Console.WriteLine("Failed to add item to basket with quantity: " + basketItemA.GetQuantity());
                 return;
             }
 
