@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using CheckoutKata.stock;
+﻿using CheckoutKata.stock;
 
 namespace CheckoutKata.lib
 {
@@ -8,11 +7,46 @@ namespace CheckoutKata.lib
     /// </summary>
     public class BasketItem
     {
-        public StockItem StockItem { get; set; }
+        private StockItem StockItem;
+        private int Quantity;
+        private decimal PromoPrice;
+        private bool PromoApplied;
 
-        public BasketItem(StockItem stockItem)
+        public string GetSKU()
+        {
+            return StockItem.GetSKU();
+        }
+
+        public decimal GetPromoPrice()
+        {
+            return PromoPrice;
+        }
+
+        public void SetPromoPrice(decimal promoPrice)
+        {
+            PromoPrice = promoPrice;
+            PromoApplied = true;
+        }
+
+        public bool IsPromoApplied()
+        {
+            return PromoApplied;
+        }
+
+        public decimal GetUnitPrice()
+        {
+            return StockItem.GetUnitPrice();
+        }
+
+        public int GetQuantity()
+        {
+            return Quantity;
+        }
+
+        public BasketItem(StockItem stockItem, int quantity)
         {
             StockItem = stockItem;
+            Quantity = quantity;
         }
     }
 }

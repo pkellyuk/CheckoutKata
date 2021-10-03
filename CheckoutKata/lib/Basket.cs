@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CheckoutKata.lib
 {
@@ -10,8 +7,9 @@ namespace CheckoutKata.lib
     /// Basket object
     /// </summary>
     public class Basket
-    {          
-        private List<BasketItem> BasketItems { get; set; }
+    {
+        private decimal TotalCost;
+        private List<BasketItem> BasketItems;
 
         public Basket()
         {
@@ -26,7 +24,50 @@ namespace CheckoutKata.lib
         public bool AddItem(BasketItem item)
         {
             BasketItems.Add(item);
+            ApplyPromotions();
+            CalculateTotal();
             return true;   
+        }
+
+        public decimal GetTotalCost()
+        {
+            return TotalCost;
+        }
+
+        private void CalculateTotal()
+        {
+            TotalCost = 0m;
+
+            foreach(BasketItem basketItem in BasketItems)
+            {
+                if(basketItem.IsPromoApplied() == true)
+                {
+                    TotalCost += basketItem.GetPromoPrice();
+                }
+                else
+                {
+                    TotalCost += basketItem.GetUnitPrice() * basketItem.GetQuantity();
+                }
+            }
+        }
+
+        private void ApplyPromotions()
+        {
+            foreach (BasketItem basketItem in BasketItems)
+            {
+                if (basketItem.GetQuantity() == 3 && basketItem.GetSKU() == "B")
+                {
+                    Console.WriteLine("applying promo 3 for 40");
+                    basketItem.SetPromoPrice(40.00m);
+                }
+
+                if(basketItem.GetQuantity() == 2 && basketItem.GetSKU() == "D")
+                {
+                    Console.WriteLine("applying promo 25% off every two");
+                    decimal promoPrice = (basketItem.GetUnitPrice() * (decimal)basketItem.GetQuantity()) * (decimal)0.75;
+                    basketItem.SetPromoPrice(promoPrice);
+                }
+            }
         }
     }
 }
